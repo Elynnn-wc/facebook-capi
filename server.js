@@ -28,6 +28,19 @@ app.use((req, res, next) => {
 app.post('/send-capi', async (req, res) => {
   const { email, phone, eventName = "Lead", value = 0 } = req.body;
 
+  try {
+    const response = await axios.post(
+      `https://graph.facebook.com/v19.0/${process.env.PIXEL_ID}/events?access_token=${process.env.ACCESS_TOKEN}`,
+      { data: [payload] }
+    );
+    res.json({ success: true, fb_response: response.data });
+  } catch (err) {
+    console.error('Facebook API error:', err.response?.data || err.message);
+    res.status(500).json({ error: err.response?.data || err.message });
+  }
+});
+
+
   if (!email && !phone) {
     return res.status(400).json({ error: 'Email or phone is required' });
   }
