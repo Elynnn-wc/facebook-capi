@@ -2,11 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const crypto = require('crypto');
 const axios = require('axios');
+const cors = require('cors'); 
 const { hash } = require('./utils/hash');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 
 // Root route to verify server is running
