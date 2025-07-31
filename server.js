@@ -9,7 +9,12 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// 校验中间件（防止别人乱调用）
+// Root route to verify server is running
+app.get('/', (req, res) => {
+  res.send('Hello! CAPI Server is running.');
+});
+
+// Middleware to validate API key (prevent unauthorized use)
 app.use((req, res, next) => {
   const auth = req.headers['x-api-key'];
   if (auth !== process.env.API_SECRET) {
@@ -29,7 +34,7 @@ app.post('/send-capi', async (req, res) => {
     event_name: eventName,
     event_time: Math.floor(Date.now() / 1000),
     action_source: "website",
-    event_source_url: "https://explore777.netlify.app/", // 修改为你的网页地址
+    event_source_url: "https://explore777.netlify.app/", // Change to your site URL
     user_data: {
       em: email ? [hash(email)] : [],
       ph: phone ? [hash(phone)] : [],
