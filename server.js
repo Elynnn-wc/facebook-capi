@@ -11,12 +11,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Root route to verify server is running
+// Root route
 app.get('/', (req, res) => {
   res.send('Hello! CAPI Server is running.');
 });
 
-// Middleware to validate API key (prevent unauthorized use)
+// API key validation middleware
 app.use((req, res, next) => {
   const auth = req.headers['x-api-key'];
   if (auth !== process.env.X_API_KEY) {
@@ -25,21 +25,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// POST /send-capi route
 app.post('/send-capi', async (req, res) => {
   const { email, phone, eventName = "Lead", value = 0 } = req.body;
-
-  try {
-    const response = await axios.post(
-      `https://graph.facebook.com/v19.0/${process.env.PIXEL_ID}/events?access_token=${process.env.ACCESS_TOKEN}`,
-      { data: [payload] }
-    );
-    res.json({ success: true, fb_response: response.data });
-  } catch (err) {
-    console.error('Facebook API error:', err.response?.data || err.message);
-    res.status(500).json({ error: err.response?.data || err.message });
-  }
-});
-
 
   if (!email && !phone) {
     return res.status(400).json({ error: 'Email or phone is required' });
@@ -67,6 +55,7 @@ app.post('/send-capi', async (req, res) => {
     );
     res.json({ success: true, fb_response: response.data });
   } catch (err) {
+    console.error('Facebook API error:', err.response?.data || err.message);
     res.status(500).json({ error: err.response?.data || err.message });
   }
 });
