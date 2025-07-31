@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 // Middleware to validate API key (prevent unauthorized use)
 app.use((req, res, next) => {
   const auth = req.headers['x-api-key'];
-  if (auth !== process.env.API_SECRET) {
+  if (auth !== process.env.X_API_KEY) {
     return res.status(403).json({ error: 'Forbidden: Invalid API Key' });
   }
   next();
