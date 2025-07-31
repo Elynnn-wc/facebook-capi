@@ -35,7 +35,7 @@ app.post('/send-capi', async (req, res) => {
       ph: phone ? [hash(phone)] : [],
     },
     custom_data: {
-      currency: "MYR",
+      currency: "SGD",
       value: value
     }
   };
