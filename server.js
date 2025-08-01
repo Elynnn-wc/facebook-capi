@@ -46,7 +46,7 @@ app.post('/send-capi', async (req, res) => {
     event_name: eventName,
     event_time: Math.floor(Date.now() / 1000),
     action_source: "website",
-    event_source_url: "https://explore777.netlify.app/", // 根据实际替换
+    event_source_url: "https://xplaylb7.netlify.app/", // 根据实际替换
     user_data: {
       em: email ? [hash(email)] : [],
       ph: phone ? [hash(phone)] : [],
