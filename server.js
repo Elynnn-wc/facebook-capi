@@ -41,6 +41,7 @@ app.post('/send-capi', async (req, res) => {
   const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || '';
   // 取 User-Agent
   const userAgent = req.headers['user-agent'] || '';
+  const fbc = req.headers['x-fbc'] || '';
 
   const payload = {
     event_name: eventName,
@@ -52,6 +53,7 @@ app.post('/send-capi', async (req, res) => {
       ph: phone ? [hash(phone)] : [],
       client_ip_address: clientIp,
       client_user_agent: userAgent,
+      fbc: fbc ? [fbc] : [],
     },
     custom_data: {
       currency,
